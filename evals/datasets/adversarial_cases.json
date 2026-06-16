@@ -1,0 +1,44 @@
+[
+  {
+    "case_id": "allow_eurlex",
+    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679",
+    "expected_decision": "allow",
+    "note": "Official EU regulatory source on the allowlist."
+  },
+  {
+    "case_id": "allow_gdpr_eu",
+    "url": "https://gdpr.eu/article-30-records-of-processing-activities/",
+    "expected_decision": "allow",
+    "note": "Allowlisted GDPR reference."
+  },
+  {
+    "case_id": "allow_case_insensitive_host",
+    "url": "https://EUR-Lex.europa.eu/legal-content/EN/TXT/",
+    "expected_decision": "allow",
+    "note": "Host comparison must be case-insensitive."
+  },
+  {
+    "case_id": "deny_random_blog",
+    "url": "https://some-random-blog.example.com/eu-ai-act-summary",
+    "expected_decision": "deny",
+    "note": "Secondary commentary off the allowlist must be blocked."
+  },
+  {
+    "case_id": "deny_malicious",
+    "url": "https://malicious-example.com/fake-regulation",
+    "expected_decision": "deny",
+    "note": "Untrusted domain — exfiltration / injection risk."
+  },
+  {
+    "case_id": "deny_lookalike_subdomain",
+    "url": "https://eur-lex.europa.eu.evil.com/legal-content",
+    "expected_decision": "deny",
+    "note": "Lookalike host that is NOT exactly on the allowlist must be denied."
+  },
+  {
+    "case_id": "deny_raw_github",
+    "url": "https://raw.githubusercontent.com/someone/repo/main/regulation.txt",
+    "expected_decision": "deny",
+    "note": "Arbitrary user content is not an authoritative regulator."
+  }
+]

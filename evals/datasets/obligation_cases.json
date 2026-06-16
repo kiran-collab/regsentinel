@@ -1,0 +1,31 @@
+[
+  {
+    "case_id": "gdpr_article_30_extraction",
+    "regulation_id": "GDPR-Art30",
+    "source_text": "Article 30 Records of processing activities. (a) Each controller shall maintain a record of processing activities under its responsibility, containing the purposes of the processing. (b) The record shall contain the categories of recipients to whom the personal data have been disclosed.",
+    "expected": {
+      "must_include_obligation_terms": [
+        "records of processing activities",
+        "controller",
+        "purposes of the processing",
+        "categories of recipients"
+      ],
+      "expected_min_obligations": 3,
+      "expected_min_mandatory": 2
+    }
+  },
+  {
+    "case_id": "eu_ai_act_article_9_extraction",
+    "regulation_id": "EUAIA-Art9",
+    "source_text": "Article 9 Risk management system. (a) A risk management system shall be established, implemented, documented and maintained in relation to high-risk AI systems. (b) The risk management system shall be understood as a continuous iterative process planned and run throughout the entire lifecycle of a high-risk AI system. (c) Providers may consider additional voluntary measures where appropriate.",
+    "expected": {
+      "must_include_obligation_terms": [
+        "risk management system",
+        "high-risk AI system",
+        "continuous iterative process"
+      ],
+      "expected_min_obligations": 3,
+      "expected_min_mandatory": 2
+    }
+  }
+]

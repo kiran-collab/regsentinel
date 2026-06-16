@@ -1,0 +1,57 @@
+# RegSentinel evaluation pipeline configuration.
+#
+# Layers run cheapest-and-most-deterministic first. `unit` and `guardrail` need
+# no API key and gate every push; `agent` and `e2e` exercise the live models.
+
+layers:
+  unit:
+    runner: evals.run_unit_evals
+    requires_api_key: false
+    datasets:
+      - datasets/risk_matrix_cases.json
+      - datasets/citation_cases.json
+      - datasets/control_mapping_cases.json
+      - datasets/obligation_cases.json
+    results: results/unit_eval_results.json
+
+  guardrail:
+    runner: evals.run_guardrail_evals
+    requires_api_key: false
+    datasets:
+      - datasets/adversarial_cases.json
+    results: results/guardrail_eval_results.json
+
+  agent:
+    runner: evals.run_agent_evals
+    requires_api_key: true
+    datasets:
+      - datasets/agent_cases.json
+    results: results/agent_eval_results.json
+
+  e2e:
+    runner: evals.run_end_to_end_evals
+    requires_api_key: true
+    datasets:
+      - datasets/golden_regulatory_cases.json
+    results: results/e2e_eval_results.json
+
+# Pass thresholds. The deterministic layers must be perfect; the model-driven
+# layers allow a documented floor (models are non-deterministic).
+thresholds:
+  unit_pass_rate: 1.0
+  guardrail_pass_rate: 1.0
+  agent_pass_rate: 1.0
+  e2e_pass_rate: 1.0
+
+# Fixed risk matrix oracle, mirrored independently in scorers/risk_scorer.py so
+# drift in compliance_tools._RISK_MATRIX is caught. Documented here for review.
+risk_matrix:
+  low_low: informational
+  low_medium: low
+  low_high: medium
+  medium_low: low
+  medium_medium: medium
+  medium_high: high
+  high_low: medium
+  high_medium: high
+  high_high: critical

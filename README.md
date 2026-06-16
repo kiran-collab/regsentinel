@@ -77,11 +77,51 @@ regsentinel/
 │   ├── hooks.py                 # egress guard + audit-trail governance hooks
 │   └── tools/
 │       └── compliance_tools.py  # in-process MCP server: deterministic domain logic
-├── tests/test_compliance_tools.py   # unit tests for the auditable core (6 passing)
+├── evals/                       # layered evaluation pipeline (see evals/README.md)
+│   ├── datasets/                # versioned golden + adversarial benchmark cases
+│   ├── scorers/                 # pure, independent grading oracles
+│   ├── run_unit_evals.py        # deterministic MCP-tool evals (no API key)
+│   ├── run_guardrail_evals.py   # egress-allowlist evals (no API key)
+│   ├── run_agent_evals.py       # per-subagent isolation evals (needs API key)
+│   └── run_end_to_end_evals.py  # full-audit evals (needs API key)
+├── tests/                       # unit tests for the auditable core + eval layers
 ├── examples/run_audit.py
 ├── sample_data/controls_inventory.md
+├── .github/workflows/regsentinel-evals.yml   # CI: tests + deterministic evals
 ├── requirements.txt
 └── pyproject.toml
+```
+
+## Evaluation pipeline
+
+A multi-agent compliance system is only trustworthy if you can *prove* each
+agent did its job. RegSentinel ships a layered eval pipeline (`evals/`) that
+asks: did each agent perform its assigned task correctly — with verified
+sources, deterministic risk scoring, safe tool use, and a report a human
+reviewer can trust?
+
+It evaluates at four levels:
+
+- **unit** — the deterministic MCP tools (risk matrix, citation integrity,
+  control mapping, obligation extraction). Pure Python, no API key.
+- **guardrail** — the egress-allowlist hook denies off-list domains (including
+  lookalike subdomains) and allows authoritative regulators. No API key.
+- **agent** — each specialist subagent in isolation, verified against the audit
+  trail to confirm it used its assigned least-privilege tools.
+- **end-to-end** — the full orchestrated audit: required report sections,
+  correct phase order (research → extract → map → score → write), and a minimum
+  recorded gap count.
+
+The deterministic layers gate every push via GitHub Actions; the model-driven
+layers run when `ANTHROPIC_API_KEY` is configured and skip cleanly otherwise.
+The scorers are **independent oracles** — e.g. the risk scorer keeps its own
+copy of the matrix so drift in the tool is caught, not mirrored. See
+[`evals/README.md`](evals/README.md).
+
+```bash
+python -m evals.run_unit_evals          # 25 deterministic cases, no key
+python -m evals.run_guardrail_evals     # egress allow/deny cases, no key
+pytest -q                               # core + eval layers under CI
 ```
 
 ## Quickstart

@@ -1,0 +1,14 @@
+[
+  { "case_id": "ll_low_low",        "likelihood": "low",    "impact": "low",    "expected_band": "informational" },
+  { "case_id": "low_medium",        "likelihood": "low",    "impact": "medium", "expected_band": "low" },
+  { "case_id": "low_high",          "likelihood": "low",    "impact": "high",   "expected_band": "medium" },
+  { "case_id": "medium_low",        "likelihood": "medium", "impact": "low",    "expected_band": "low" },
+  { "case_id": "medium_medium",     "likelihood": "medium", "impact": "medium", "expected_band": "medium" },
+  { "case_id": "medium_high",       "likelihood": "medium", "impact": "high",   "expected_band": "high" },
+  { "case_id": "high_low",          "likelihood": "high",   "impact": "low",    "expected_band": "medium" },
+  { "case_id": "high_medium",       "likelihood": "high",   "impact": "medium", "expected_band": "high" },
+  { "case_id": "high_high",         "likelihood": "high",   "impact": "high",   "expected_band": "critical" },
+  { "case_id": "case_insensitive",  "likelihood": "HIGH",   "impact": "High",   "expected_band": "critical" },
+  { "case_id": "invalid_likelihood","likelihood": "extreme","impact": "low",    "expect_error": true },
+  { "case_id": "invalid_impact",    "likelihood": "low",    "impact": "severe", "expect_error": true }
+]

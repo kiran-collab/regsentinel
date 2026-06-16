@@ -1,0 +1,48 @@
+[
+  {
+    "case_id": "researcher_gdpr_30",
+    "agent": "regulation-researcher",
+    "working_dir": "sample_data",
+    "input": "Find the CURRENT authoritative text of GDPR Article 30 (records of processing activities). Return the verbatim clause text, the source URL, and the last-amended date.",
+    "expected": {
+      "must_use_tools": ["__one_of__:WebSearch,WebFetch"],
+      "authoritative_domains": ["gdpr.eu", "eur-lex.europa.eu"]
+    }
+  },
+  {
+    "case_id": "extractor_eu_ai_act_9",
+    "agent": "obligation-extractor",
+    "working_dir": "sample_data",
+    "input": "Extract the obligations from this text using your tool. Text: 'Article 9 (a) A risk management system shall be established and maintained in relation to high-risk AI systems. (b) Providers may consider additional voluntary measures.'",
+    "expected": {
+      "must_use_tools": ["mcp__compliance__extract_obligations"]
+    }
+  },
+  {
+    "case_id": "mapper_gdpr_register",
+    "agent": "control-mapper",
+    "working_dir": "sample_data",
+    "input": "The obligation 'GDPR-Art30:rec' requires maintaining records of processing activities including retention periods. Read controls_inventory.md, decide coverage against the existing controls, and record the mapping with your tool.",
+    "expected": {
+      "must_use_tools": ["mcp__compliance__map_control"]
+    }
+  },
+  {
+    "case_id": "assessor_residual_risk_gap",
+    "agent": "risk-assessor",
+    "working_dir": "sample_data",
+    "input": "There is a gap: no formal residual-risk acceptance step exists for deployed ML models (CTRL-014 partial). Estimate likelihood and impact and obtain the official risk band with your tool.",
+    "expected": {
+      "must_use_tools": ["mcp__compliance__score_risk"]
+    }
+  },
+  {
+    "case_id": "writer_report_with_citation",
+    "agent": "report-writer",
+    "working_dir": "sample_data",
+    "input": "Findings: obligation 'controller shall maintain a record of processing activities' (source text: 'The controller shall maintain a record of processing activities.'), control CTRL-001 partial coverage, risk band medium. Verify the citation with your tool, then write compliance_report.md with an executive summary, risk register, per-obligation coverage, and citation appendix.",
+    "expected": {
+      "must_use_tools": ["mcp__compliance__verify_citation", "Write"]
+    }
+  }
+]

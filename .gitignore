@@ -19,3 +19,11 @@ env/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+
+# Generated run + eval artifacts
+audit_trail.jsonl
+compliance_report.md
+sample_data/compliance_report.md
+evals/results/*.json
+evals/results/*.md
+!evals/results/.gitkeep

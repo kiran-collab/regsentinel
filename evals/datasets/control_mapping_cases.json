@@ -1,0 +1,52 @@
+[
+  {
+    "case_id": "full_coverage_no_gap",
+    "args": {
+      "obligation_id": "GDPR30:abc",
+      "control_id": "CTRL-022",
+      "coverage": "full",
+      "rationale": "CTRL-022 provides immutable access logging covering the requirement."
+    },
+    "expected": { "coverage": "full", "control_id": "CTRL-022" }
+  },
+  {
+    "case_id": "partial_coverage_is_gap",
+    "args": {
+      "obligation_id": "GDPR30:def",
+      "control_id": "CTRL-001",
+      "coverage": "partial",
+      "rationale": "CTRL-001 register misses retention periods."
+    },
+    "expected": { "coverage": "partial", "control_id": "CTRL-001" }
+  },
+  {
+    "case_id": "none_coverage_is_gap",
+    "args": {
+      "obligation_id": "EUAIA9:ghi",
+      "control_id": "CTRL-014",
+      "coverage": "none",
+      "rationale": "No control covers continuous residual-risk acceptance."
+    },
+    "expected": { "coverage": "none", "control_id": "CTRL-014" }
+  },
+  {
+    "case_id": "coverage_normalizes_case",
+    "args": {
+      "obligation_id": "EUAIA9:jkl",
+      "control_id": "CTRL-041",
+      "coverage": "PARTIAL",
+      "rationale": "Human oversight exists but no documented training."
+    },
+    "expected": { "coverage": "partial", "control_id": "CTRL-041" }
+  },
+  {
+    "case_id": "invalid_coverage_rejected",
+    "args": {
+      "obligation_id": "EUAIA9:mno",
+      "control_id": "CTRL-055",
+      "coverage": "mostly",
+      "rationale": "Vendor due diligence is incomplete."
+    },
+    "expected": { "error": true }
+  }
+]

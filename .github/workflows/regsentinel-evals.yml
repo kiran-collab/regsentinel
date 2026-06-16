@@ -1,0 +1,60 @@
+name: regsentinel-evals
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyyaml
+
+      # Deterministic tests + scorers (also gates the unit & guardrail runners).
+      - name: Run tests
+        run: pytest -q
+
+      # Deterministic eval layers — no API key required.
+      - name: Run unit evals
+        run: python -m evals.run_unit_evals
+
+      - name: Run guardrail evals
+        run: python -m evals.run_guardrail_evals
+
+      # Model-driven layers — only when the key secret is configured. They skip
+      # cleanly (exit 0) otherwise, so forked PRs without the secret stay green.
+      - name: Run agent evals
+        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m evals.run_agent_evals
+
+      - name: Run end-to-end evals
+        if: ${{ secrets.ANTHROPIC_API_KEY != '' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m evals.run_end_to_end_evals
+
+      - name: Summarize
+        if: always()
+        run: python -m evals.summarize
+
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: evals/results/

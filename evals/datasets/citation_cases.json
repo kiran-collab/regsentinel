@@ -1,0 +1,38 @@
+[
+  {
+    "case_id": "valid_citation",
+    "source_text": "The controller shall maintain a record of processing activities.",
+    "quoted_snippet": "shall maintain a record of processing activities",
+    "expected_verified": true
+  },
+  {
+    "case_id": "valid_citation_whitespace",
+    "source_text": "The controller shall maintain a record of activities.",
+    "quoted_snippet": "shall   maintain a   record",
+    "expected_verified": true
+  },
+  {
+    "case_id": "valid_citation_case_insensitive",
+    "source_text": "Providers SHALL establish a risk management system.",
+    "quoted_snippet": "shall establish a risk management system",
+    "expected_verified": true
+  },
+  {
+    "case_id": "fabricated_citation",
+    "source_text": "The controller shall maintain a record of processing activities.",
+    "quoted_snippet": "the controller may ignore processing records",
+    "expected_verified": false
+  },
+  {
+    "case_id": "fabricated_deadline",
+    "source_text": "The controller shall maintain a record of activities.",
+    "quoted_snippet": "must publish results within 24 hours",
+    "expected_verified": false
+  },
+  {
+    "case_id": "subtle_negation_fabrication",
+    "source_text": "Providers shall establish a risk management system for high-risk AI.",
+    "quoted_snippet": "providers shall not establish a risk management system",
+    "expected_verified": false
+  }
+]

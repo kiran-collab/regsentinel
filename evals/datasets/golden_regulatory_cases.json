@@ -1,0 +1,45 @@
+[
+  {
+    "case_id": "gdpr_article_30_basic",
+    "regulations": "GDPR Article 30",
+    "working_dir": "sample_data",
+    "expected": {
+      "authoritative_domains": ["gdpr.eu", "eur-lex.europa.eu"],
+      "must_include_obligation_terms": [
+        "records of processing activities",
+        "controller",
+        "purposes of the processing",
+        "categories of recipients"
+      ],
+      "expected_min_obligations": 3,
+      "expected_gap_count_min": 1,
+      "required_report_sections": [
+        "executive summary",
+        "risk register",
+        "per-obligation coverage",
+        "citation appendix"
+      ]
+    }
+  },
+  {
+    "case_id": "eu_ai_act_article_9_risk_management",
+    "regulations": "EU AI Act Article 9",
+    "working_dir": "sample_data",
+    "expected": {
+      "authoritative_domains": ["eur-lex.europa.eu"],
+      "must_include_obligation_terms": [
+        "risk management system",
+        "high-risk AI system",
+        "continuous iterative process"
+      ],
+      "expected_min_obligations": 3,
+      "expected_gap_count_min": 1,
+      "required_report_sections": [
+        "executive summary",
+        "risk register",
+        "per-obligation coverage",
+        "citation appendix"
+      ]
+    }
+  }
+]
