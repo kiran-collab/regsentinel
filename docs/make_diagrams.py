@@ -457,12 +457,38 @@ def build_eval_pipeline() -> str:
     return s.render()
 
 
+def rasterize(svg_path: Path, width: int = 3000):
+    """Emit a high-res PNG next to the SVG, if a rasterizer is available.
+
+    Tries rsvg-convert (librsvg) then qlmanage (macOS). No-op if neither is
+    installed — the SVG remains the source of truth.
+    """
+    import shutil
+    import subprocess
+
+    png_path = svg_path.with_suffix(".png")
+    if shutil.which("rsvg-convert"):
+        subprocess.run(["rsvg-convert", "-w", str(width), str(svg_path),
+                        "-o", str(png_path)], check=True)
+        print("wrote", png_path)
+    elif shutil.which("qlmanage"):  # note: squares the output; rsvg preferred
+        subprocess.run(["qlmanage", "-t", "-s", str(width), "-o",
+                        str(svg_path.parent), str(svg_path)],
+                       check=True, capture_output=True)
+        (svg_path.parent / f"{svg_path.name}.png").rename(png_path)
+        print("wrote", png_path)
+    else:
+        print("(no rasterizer found — install librsvg for PNG export)")
+
+
 def main():
     out = Path(__file__).parent
-    (out / "architecture.svg").write_text(build_architecture(), encoding="utf-8")
-    (out / "eval_pipeline.svg").write_text(build_eval_pipeline(), encoding="utf-8")
-    print("wrote", out / "architecture.svg")
-    print("wrote", out / "eval_pipeline.svg")
+    for name, builder in (("architecture", build_architecture),
+                          ("eval_pipeline", build_eval_pipeline)):
+        svg_path = out / f"{name}.svg"
+        svg_path.write_text(builder(), encoding="utf-8")
+        print("wrote", svg_path)
+        rasterize(svg_path)
 
 
 if __name__ == "__main__":
