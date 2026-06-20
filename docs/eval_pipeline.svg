@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="600" viewBox="0 0 1500 600" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif">
+<rect width="1500" height="600" fill="#ffffff"/>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7.2" refY="3.4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7.6,3.4 L0,6.8 Z" fill="#16202e"/></marker><marker id="arrowG" markerWidth="9" markerHeight="9" refX="7.2" refY="3.4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L7.6,3.4 L0,6.8 Z" fill="#be123c"/></marker></defs>
+<text x="48" y="54" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="700" fill="#16202e" text-anchor="start">RegSentinel</text>
+<text x="218" y="54" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400" fill="#5b6678" text-anchor="start">· Evaluation Pipeline</text>
+<text x="48" y="82" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="13.5" font-weight="400" fill="#5b6678" text-anchor="start">Four layers, cheapest-and-most-deterministic first. The unit and guardrail layers gate every push with no API key; the model-driven layers run when a key is configured.</text>
+<line x1="48" y1="98" x2="1452" y2="98" stroke="#dbe2ec" stroke-width="1.2" stroke-linecap="round"/>
+<rect x="48.0" y="150" width="330.0" height="300" rx="12" ry="12" fill="#ffffff" stroke="#0f766e" stroke-width="1.8"/>
+<rect x="48.0" y="150" width="330.0" height="54" rx="12" ry="12" fill="#e7f4f1"/>
+<rect x="48.0" y="190" width="330.0" height="14" rx="0" ry="0" fill="#e7f4f1"/>
+<circle cx="74.0" cy="177" r="12" fill="#0f766e"/>
+<text x="74.0" y="181.5" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+<text x="94.0" y="175" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="700" fill="#0f766e" text-anchor="start">UNIT</text>
+<text x="94.0" y="194" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#5b6678" text-anchor="start">deterministic MCP tools</text>
+<circle cx="72.0" cy="232" r="2.2" fill="#0f766e"/>
+<text x="82.0" y="236" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">risk matrix · 9 cells + bad input</text>
+<circle cx="72.0" cy="258" r="2.2" fill="#0f766e"/>
+<text x="82.0" y="262" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">citation: valid vs fabricated</text>
+<circle cx="72.0" cy="284" r="2.2" fill="#0f766e"/>
+<text x="82.0" y="288" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">control coverage → gap</text>
+<circle cx="72.0" cy="310" r="2.2" fill="#0f766e"/>
+<text x="82.0" y="314" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">obligation recall + no-invention</text>
+<rect x="66.0" y="406" width="294.0" height="28" rx="7" ry="7" fill="#e8f6ee" stroke="#15803d" stroke-width="1.3"/>
+<text x="213.0" y="425" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle">no API key</text>
+<rect x="406.0" y="150" width="330.0" height="300" rx="12" ry="12" fill="#ffffff" stroke="#b45309" stroke-width="1.8"/>
+<rect x="406.0" y="150" width="330.0" height="54" rx="12" ry="12" fill="#fdf4e7"/>
+<rect x="406.0" y="190" width="330.0" height="14" rx="0" ry="0" fill="#fdf4e7"/>
+<circle cx="432.0" cy="177" r="12" fill="#b45309"/>
+<text x="432.0" y="181.5" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+<text x="452.0" y="175" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="700" fill="#b45309" text-anchor="start">GUARDRAIL</text>
+<text x="452.0" y="194" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#5b6678" text-anchor="start">governance hooks</text>
+<circle cx="430.0" cy="232" r="2.2" fill="#b45309"/>
+<text x="440.0" y="236" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">allow authoritative regulators</text>
+<circle cx="430.0" cy="258" r="2.2" fill="#b45309"/>
+<text x="440.0" y="262" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">deny off-list domains</text>
+<circle cx="430.0" cy="284" r="2.2" fill="#b45309"/>
+<text x="440.0" y="288" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">deny lookalike subdomains</text>
+<circle cx="430.0" cy="310" r="2.2" fill="#b45309"/>
+<text x="440.0" y="314" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">non-WebFetch passthrough</text>
+<rect x="424.0" y="406" width="294.0" height="28" rx="7" ry="7" fill="#e8f6ee" stroke="#15803d" stroke-width="1.3"/>
+<text x="571.0" y="425" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="700" fill="#15803d" text-anchor="middle">no API key</text>
+<rect x="764.0" y="150" width="330.0" height="300" rx="12" ry="12" fill="#ffffff" stroke="#4338ca" stroke-width="1.8"/>
+<rect x="764.0" y="150" width="330.0" height="54" rx="12" ry="12" fill="#eef0fd"/>
+<rect x="764.0" y="190" width="330.0" height="14" rx="0" ry="0" fill="#eef0fd"/>
+<circle cx="790.0" cy="177" r="12" fill="#4338ca"/>
+<text x="790.0" y="181.5" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+<text x="810.0" y="175" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="700" fill="#4338ca" text-anchor="start">AGENT</text>
+<text x="810.0" y="194" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#5b6678" text-anchor="start">subagents in isolation</text>
+<circle cx="788.0" cy="232" r="2.2" fill="#4338ca"/>
+<text x="798.0" y="236" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">each agent promoted to top loop</text>
+<circle cx="788.0" cy="258" r="2.2" fill="#4338ca"/>
+<text x="798.0" y="262" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">audit-trail verifies tool use</text>
+<circle cx="788.0" cy="284" r="2.2" fill="#4338ca"/>
+<text x="798.0" y="288" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">researcher → authoritative host</text>
+<circle cx="788.0" cy="310" r="2.2" fill="#4338ca"/>
+<text x="798.0" y="314" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">least-privilege respected</text>
+<rect x="782.0" y="406" width="294.0" height="28" rx="7" ry="7" fill="#fdeef1" stroke="#be123c" stroke-width="1.3"/>
+<text x="929.0" y="425" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="700" fill="#be123c" text-anchor="middle">needs API key</text>
+<rect x="1122.0" y="150" width="330.0" height="300" rx="12" ry="12" fill="#ffffff" stroke="#be123c" stroke-width="1.8"/>
+<rect x="1122.0" y="150" width="330.0" height="54" rx="12" ry="12" fill="#fdeef1"/>
+<rect x="1122.0" y="190" width="330.0" height="14" rx="0" ry="0" fill="#fdeef1"/>
+<circle cx="1148.0" cy="177" r="12" fill="#be123c"/>
+<text x="1148.0" y="181.5" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+<text x="1168.0" y="175" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="700" fill="#be123c" text-anchor="start">END-TO-END</text>
+<text x="1168.0" y="194" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.5" font-weight="400" fill="#5b6678" text-anchor="start">full orchestrated audit</text>
+<circle cx="1146.0" cy="232" r="2.2" fill="#be123c"/>
+<text x="1156.0" y="236" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">report sections present</text>
+<circle cx="1146.0" cy="258" r="2.2" fill="#be123c"/>
+<text x="1156.0" y="262" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">phase order: research→…→write</text>
+<circle cx="1146.0" cy="284" r="2.2" fill="#be123c"/>
+<text x="1156.0" y="288" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">min recorded gap count</text>
+<circle cx="1146.0" cy="310" r="2.2" fill="#be123c"/>
+<text x="1156.0" y="314" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="10.8" font-weight="400" fill="#16202e" text-anchor="start">obligation terms in report</text>
+<rect x="1140.0" y="406" width="294.0" height="28" rx="7" ry="7" fill="#fdeef1" stroke="#be123c" stroke-width="1.3"/>
+<text x="1287.0" y="425" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="700" fill="#be123c" text-anchor="middle">needs API key</text>
+<line x1="382.0" y1="300.0" x2="402.0" y2="300.0" stroke="#16202e" stroke-width="1.6" stroke-linecap="round" marker-end="url(#arrow)"/>
+<line x1="740.0" y1="300.0" x2="760.0" y2="300.0" stroke="#16202e" stroke-width="1.6" stroke-linecap="round" marker-end="url(#arrow)"/>
+<line x1="1098.0" y1="300.0" x2="1118.0" y2="300.0" stroke="#16202e" stroke-width="1.6" stroke-linecap="round" marker-end="url(#arrow)"/>
+<rect x="48" y="470" width="1404" height="44" rx="10" ry="10" fill="#f7f9fc" stroke="#e4eaf3" stroke-width="1.3"/>
+<circle cx="74" cy="492" r="4" fill="#4338ca"/>
+<text x="88" y="496" font-family="Helvetica, 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#16202e" text-anchor="start">GitHub Actions  ·  pytest + unit + guardrail gate every push  ·  agent + e2e run on ANTHROPIC_API_KEY  ·  results rolled up to eval_summary.md</text>
+</svg>
