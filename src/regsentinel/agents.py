@@ -21,9 +21,13 @@ blast radius of prompt injection from a fetched regulator page.
 
 from claude_agent_sdk import AgentDefinition
 
+from .config import get_settings
 from .tools.compliance_tools import COMPLIANCE_TOOL_NAMES
 
 EXTRACT, SCORE, VERIFY, MAP = COMPLIANCE_TOOL_NAMES
+
+# Specialist model is configurable (REGSENTINEL_SUBAGENT_MODEL); resolved once.
+_MODEL = get_settings().subagent_model
 
 
 SUBAGENTS = {
@@ -44,7 +48,7 @@ SUBAGENTS = {
             "need the verbatim clause to verify citations."
         ),
         tools=["WebSearch", "WebFetch"],
-        model="sonnet",
+        model=_MODEL,
     ),
     "obligation-extractor": AgentDefinition(
         description=(
@@ -59,7 +63,7 @@ SUBAGENTS = {
             "a one-line plain-language restatement per mandatory obligation."
         ),
         tools=[EXTRACT],
-        model="sonnet",
+        model=_MODEL,
     ),
     "control-mapper": AgentDefinition(
         description=(
@@ -76,7 +80,7 @@ SUBAGENTS = {
             "the control ID you relied on in the rationale."
         ),
         tools=["Read", "Glob", "Grep", MAP],
-        model="sonnet",
+        model=_MODEL,
     ),
     "risk-assessor": AgentDefinition(
         description=(
@@ -91,7 +95,7 @@ SUBAGENTS = {
             "Sort the final register critical -> informational."
         ),
         tools=[SCORE],
-        model="sonnet",
+        model=_MODEL,
     ),
     "report-writer": AgentDefinition(
         description=(
@@ -109,6 +113,6 @@ SUBAGENTS = {
             "'compliance_report.md'."
         ),
         tools=["Read", "Write", VERIFY],
-        model="sonnet",
+        model=_MODEL,
     ),
 }

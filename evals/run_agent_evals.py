@@ -24,11 +24,10 @@ import os
 from pathlib import Path
 from typing import Any
 
+from evals.scorers.trace_scorer import load_audit_trail
 from regsentinel.agents import SUBAGENTS
 from regsentinel.hooks import audit_tool_use, guard_egress
 from regsentinel.tools.compliance_tools import build_compliance_server
-
-from evals.scorers.trace_scorer import load_audit_trail
 
 ROOT = Path(__file__).resolve().parent.parent
 DATASET_PATH = Path(__file__).parent / "datasets" / "agent_cases.json"
@@ -128,10 +127,8 @@ def main() -> None:
     if not os.getenv("ANTHROPIC_API_KEY"):
         print("SKIP: agent evals need ANTHROPIC_API_KEY (live subagent runs).")
         RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        RESULTS_PATH.write_text(
-            json.dumps({"layer": "agent", "skipped": True, "reason": "no ANTHROPIC_API_KEY"}, indent=2),
-            encoding="utf-8",
-        )
+        skipped = {"layer": "agent", "skipped": True, "reason": "no ANTHROPIC_API_KEY"}
+        RESULTS_PATH.write_text(json.dumps(skipped, indent=2), encoding="utf-8")
         return
 
     summary = run()

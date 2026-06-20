@@ -15,17 +15,16 @@ import json
 from pathlib import Path
 from typing import Any
 
+from evals.scorers.citation_scorer import score_citation_verification
+from evals.scorers.control_mapping_scorer import score_control_mapping
+from evals.scorers.obligation_scorer import score_obligations
+from evals.scorers.risk_scorer import score_tool_result as score_risk_result
 from regsentinel.tools.compliance_tools import (
     extract_obligations,
     map_control,
     score_risk,
     verify_citation,
 )
-
-from evals.scorers.citation_scorer import score_citation_verification
-from evals.scorers.control_mapping_scorer import score_control_mapping
-from evals.scorers.obligation_scorer import score_obligations
-from evals.scorers.risk_scorer import score_tool_result as score_risk_result
 
 DATASETS = Path(__file__).parent / "datasets"
 RESULTS_PATH = Path(__file__).parent / "results" / "unit_eval_results.json"

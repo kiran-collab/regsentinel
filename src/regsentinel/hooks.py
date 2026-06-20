@@ -15,24 +15,15 @@ Hooks return {} to allow, or a decision dict to block.
 from __future__ import annotations
 
 import json
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-AUDIT_LOG = Path("audit_trail.jsonl")
+from .config import get_settings
 
-# Domains the researcher subagent is permitted to fetch. In production this
-# would come from config / a policy service.
-ALLOWED_FETCH_DOMAINS = {
-    "eur-lex.europa.eu",
-    "gdpr.eu",
-    "www.iso.org",
-    "csrc.nist.gov",
-    "www.federalregister.gov",
-    "aicpa.org",
-    "www.aicpa.org",
-}
+logger = logging.getLogger(__name__)
 
 
 async def audit_tool_use(
@@ -45,7 +36,8 @@ async def audit_tool_use(
         "tool": input_data.get("tool_name"),
         "input": input_data.get("tool_input"),
     }
-    with AUDIT_LOG.open("a", encoding="utf-8") as f:
+    audit_log = Path(get_settings().audit_log_path)
+    with audit_log.open("a", encoding="utf-8") as f:
         f.write(json.dumps(record) + "\n")
     return {}
 
@@ -60,14 +52,15 @@ async def guard_egress(
     url = input_data.get("tool_input", {}).get("url", "")
     host = urlparse(url).netloc.lower()
 
-    if host and host not in ALLOWED_FETCH_DOMAINS:
+    if host and host not in get_settings().allowed_fetch_domains:
+        logger.warning("egress blocked: host %r not on the regulator allowlist", host)
         return {
             "hookSpecificOutput": {
                 "hookEventName": "PreToolUse",
                 "permissionDecision": "deny",
                 "permissionDecisionReason": (
                     f"Egress to '{host}' blocked: not on the regulator allowlist. "
-                    f"Add it to ALLOWED_FETCH_DOMAINS to permit."
+                    f"Set REGSENTINEL_ALLOWED_FETCH_DOMAINS to permit additional hosts."
                 ),
             }
         }

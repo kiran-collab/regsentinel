@@ -54,7 +54,7 @@ prompt-injection attack served from a fetched regulator page.
 
 **3. Deterministic core via an in-process MCP server.** Risk scoring, clause
 fingerprinting, control-mapping, and citation checks live in real, unit-tested
-Python (`tools/compliance_tools.py`), exposed as MCP tools with
+Python (`src/regsentinel/tools/compliance_tools.py`), exposed as MCP tools with
 `create_sdk_mcp_server`. The model *decides* what to score; it never *invents*
 the score. The risk band comes from a fixed likelihood × impact matrix, so
 findings are reproducible and defensible.
@@ -79,10 +79,14 @@ server shows how to drop in Slack, Jira, or Confluence MCP servers unchanged.
 
 ```
 regsentinel/
-├── regsentinel/
-│   ├── orchestrator.py          # entry point: wires agents, tools, hooks, MCP, sessions
+├── src/regsentinel/             # the installable package (src layout)
+│   ├── cli.py                   # console entry point (argparse + logging)
+│   ├── __main__.py              # enables `python -m regsentinel`
+│   ├── config.py                # env-based settings + logging configuration
+│   ├── orchestrator.py          # wires agents, tools, hooks, MCP, sessions
 │   ├── agents.py                # 5 specialized subagent definitions (least-privilege)
 │   ├── hooks.py                 # egress guard + audit-trail governance hooks
+│   ├── py.typed                 # ships type information (PEP 561)
 │   └── tools/
 │       └── compliance_tools.py  # in-process MCP server: deterministic domain logic
 ├── evals/                       # layered evaluation pipeline (see evals/README.md)
@@ -141,11 +145,12 @@ pytest -q                               # core + eval layers under CI
 ## Quickstart
 
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev,evals]"              # editable install + tooling/eval extras
 export ANTHROPIC_API_KEY=sk-ant-...        # from https://platform.claude.com/
 
-# run an audit
-python -m regsentinel.orchestrator "EU AI Act Article 9; GDPR Article 30" sample_data
+# run an audit (console script or module form)
+regsentinel "EU AI Act Article 9; GDPR Article 30" sample_data
+python -m regsentinel "GDPR Article 30" sample_data
 
 # run the deterministic-core tests
 pytest -q
@@ -153,6 +158,20 @@ pytest -q
 
 Output: `compliance_report.md` (the deliverable) and `audit_trail.jsonl` (the
 governance log) in the working directory.
+
+## Configuration
+
+All runtime knobs are environment variables with safe defaults, resolved once in
+[`src/regsentinel/config.py`](src/regsentinel/config.py) (see [`.env.example`](.env.example)):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `REGSENTINEL_AUDIT_LOG` | `audit_trail.jsonl` | path for the audit trail |
+| `REGSENTINEL_ALLOWED_FETCH_DOMAINS` | regulator allowlist | comma-separated egress allowlist |
+| `REGSENTINEL_SUBAGENT_MODEL` | `sonnet` | model id for the specialist subagents |
+| `REGSENTINEL_MAX_TURNS` | `60` | orchestrator turn budget |
+| `REGSENTINEL_PERMISSION_MODE` | `acceptEdits` | Claude Agent SDK permission mode |
+| `REGSENTINEL_LOG_LEVEL` | `INFO` | logging verbosity |
 
 ## Tech
 
@@ -164,7 +183,8 @@ subagents; configurable).
 
 - `sample_data/controls_inventory.md` is illustrative; point the control-mapper
   at your real inventory (or a Confluence/Drive MCP server) for live use.
-- The egress allowlist in `hooks.py` is intentionally small — extend it for the
-  regulators you actually consult.
+- The egress allowlist defaults are intentionally small — set
+  `REGSENTINEL_ALLOWED_FETCH_DOMAINS` (see [Configuration](#configuration)) for
+  the regulators you actually consult.
 - This is a reference architecture, not legal advice; a human compliance officer
   signs off on findings.

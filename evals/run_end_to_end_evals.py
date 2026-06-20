@@ -56,7 +56,7 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
             stale.unlink()
 
     proc = subprocess.run(
-        [sys.executable, "-m", "regsentinel.orchestrator",
+        [sys.executable, "-m", "regsentinel",
          case["regulations"], case["working_dir"]],
         cwd=str(ROOT),
         capture_output=True,
@@ -127,10 +127,8 @@ def main() -> None:
     if not os.getenv("ANTHROPIC_API_KEY"):
         print("SKIP: e2e evals need ANTHROPIC_API_KEY (live orchestrator run).")
         RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
-        RESULTS_PATH.write_text(
-            json.dumps({"layer": "e2e", "skipped": True, "reason": "no ANTHROPIC_API_KEY"}, indent=2),
-            encoding="utf-8",
-        )
+        skipped = {"layer": "e2e", "skipped": True, "reason": "no ANTHROPIC_API_KEY"}
+        RESULTS_PATH.write_text(json.dumps(skipped, indent=2), encoding="utf-8")
         return
 
     summary = run()

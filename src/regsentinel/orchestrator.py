@@ -18,13 +18,12 @@ Modern patterns demonstrated for the showcase:
   * Session capture + resume for multi-phase, resumable audits.
   * Least-privilege tool scoping per subagent.
 
-Run:  python -m regsentinel.orchestrator "EU AI Act Article 9; GDPR Article 30"
+Run:  python -m regsentinel "EU AI Act Article 9; GDPR Article 30" sample_data
 """
 
 from __future__ import annotations
 
-import asyncio
-import sys
+import logging
 
 from claude_agent_sdk import (
     ClaudeAgentOptions,
@@ -35,8 +34,11 @@ from claude_agent_sdk import (
 )
 
 from .agents import SUBAGENTS
+from .config import get_settings
 from .hooks import audit_tool_use, guard_egress
 from .tools.compliance_tools import COMPLIANCE_TOOL_NAMES, build_compliance_server
+
+logger = logging.getLogger(__name__)
 
 ORCHESTRATOR_SYSTEM_PROMPT = """\
 You are RegSentinel, the orchestrator of a regulatory compliance audit.
@@ -61,6 +63,7 @@ At the end, summarize: # obligations, # gaps, and the highest risk band found.
 
 def build_options(working_dir: str) -> ClaudeAgentOptions:
     compliance_server = build_compliance_server()
+    settings = get_settings()
 
     return ClaudeAgentOptions(
         system_prompt=ORCHESTRATOR_SYSTEM_PROMPT,
@@ -91,11 +94,14 @@ def build_options(working_dir: str) -> ClaudeAgentOptions:
             # },
         },
         hooks={
-            "PreToolUse": [HookMatcher(matcher="WebFetch", hooks=[guard_egress])],
-            "PostToolUse": [HookMatcher(matcher=None, hooks=[audit_tool_use])],
+            # The SDK types hook inputs as a large union; our hooks take the
+            # dict the runtime actually passes, so the stubs disagree.
+            "PreToolUse": [HookMatcher(matcher="WebFetch", hooks=[guard_egress])],  # type: ignore[list-item]
+            "PostToolUse": [HookMatcher(matcher=None, hooks=[audit_tool_use])],  # type: ignore[list-item]
         },
-        permission_mode="acceptEdits",
-        max_turns=60,
+        # permission_mode is a Literal in the SDK; it is validated by config/env.
+        permission_mode=settings.permission_mode,  # type: ignore[arg-type]
+        max_turns=settings.max_turns,
     )
 
 
@@ -111,27 +117,13 @@ async def run_audit(regulations: str, working_dir: str = ".") -> str | None:
     session_id: str | None = None
     final: str | None = None
 
+    logger.info("starting audit: regulations=%r working_dir=%r", regulations, working_dir)
     async for message in query(prompt=prompt, options=options):
         if isinstance(message, SystemMessage) and message.subtype == "init":
             session_id = message.data.get("session_id")
-            print(f"[session] {session_id}")
+            logger.info("session started: %s", session_id)
         elif isinstance(message, ResultMessage):
             final = message.result
-            print("\n========== ORCHESTRATOR SUMMARY ==========")
-            print(final)
+            logger.info("audit complete (session %s)", session_id)
 
     return final
-
-
-def main() -> None:
-    regs = (
-        sys.argv[1]
-        if len(sys.argv) > 1
-        else "EU AI Act Article 9; GDPR Article 30"
-    )
-    work = sys.argv[2] if len(sys.argv) > 2 else "sample_data"
-    asyncio.run(run_audit(regs, work))
-
-
-if __name__ == "__main__":
-    main()

@@ -37,7 +37,8 @@ def main() -> None:
             lines.append(f"| {layer} | skipped ({data.get('reason', '')}) | – | – |")
             continue
         status = "✅ pass" if data.get("all_passed") else "❌ fail"
-        lines.append(f"| {layer} | {status} | {data.get('passed', '?')} | {data.get('total', '?')} |")
+        passed, total = data.get("passed", "?"), data.get("total", "?")
+        lines.append(f"| {layer} | {status} | {passed} | {total} |")
 
     SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
     SUMMARY_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
