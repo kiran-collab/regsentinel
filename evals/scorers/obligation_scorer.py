@@ -23,8 +23,9 @@ def _norm(s: str) -> str:
     return re.sub(r"\s+", " ", s.strip().lower())
 
 
-def score_obligations(result: dict[str, Any], expected: dict[str, Any],
-                      source_text: str) -> dict[str, Any]:
+def score_obligations(
+    result: dict[str, Any], expected: dict[str, Any], source_text: str
+) -> dict[str, Any]:
     obligations = tool_json(result).get("obligations", [])
     blob = _norm(" ".join(o.get("text", "") for o in obligations))
     norm_source = _norm(source_text)

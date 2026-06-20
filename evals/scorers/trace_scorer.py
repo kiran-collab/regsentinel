@@ -76,8 +76,7 @@ def score_phase_order(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     present = [p for p in PHASE_ORDER if p in first_idx]
     in_order = all(
-        first_idx[present[k]] < first_idx[present[k + 1]]
-        for k in range(len(present) - 1)
+        first_idx[present[k]] < first_idx[present[k + 1]] for k in range(len(present) - 1)
     )
     return {
         "observed_phases": present,

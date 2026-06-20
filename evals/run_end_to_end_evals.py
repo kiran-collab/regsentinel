@@ -56,8 +56,7 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
             stale.unlink()
 
     proc = subprocess.run(
-        [sys.executable, "-m", "regsentinel",
-         case["regulations"], case["working_dir"]],
+        [sys.executable, "-m", "regsentinel", case["regulations"], case["working_dir"]],
         cwd=str(ROOT),
         capture_output=True,
         text=True,

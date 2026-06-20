@@ -28,11 +28,7 @@ async def _decision_for(url: str) -> str:
         tool_use_id="eval",
         context=None,
     )
-    decision = (
-        result.get("hookSpecificOutput", {}).get("permissionDecision")
-        if result
-        else None
-    )
+    decision = result.get("hookSpecificOutput", {}).get("permissionDecision") if result else None
     # Hook returns {} (allow) or a deny decision dict.
     return "deny" if decision == "deny" else "allow"
 
@@ -42,26 +38,33 @@ def run() -> dict[str, Any]:
     results = []
     for case in cases:
         observed = asyncio.run(_decision_for(case["url"]))
-        results.append({
-            "case_id": case["case_id"],
-            "url": case["url"],
-            "expected": case["expected_decision"],
-            "observed": observed,
-            "passed": observed == case["expected_decision"],
-        })
+        results.append(
+            {
+                "case_id": case["case_id"],
+                "url": case["url"],
+                "expected": case["expected_decision"],
+                "observed": observed,
+                "passed": observed == case["expected_decision"],
+            }
+        )
 
     # Sanity: a non-WebFetch tool must never be blocked by the egress guard.
-    passthrough = asyncio.run(guard_egress(
-        input_data={"tool_name": "Read", "tool_input": {"file_path": "x"}},
-        tool_use_id="eval", context=None,
-    ))
-    results.append({
-        "case_id": "non_webfetch_passthrough",
-        "url": "(Read tool)",
-        "expected": "allow",
-        "observed": "allow" if passthrough == {} else "deny",
-        "passed": passthrough == {},
-    })
+    passthrough = asyncio.run(
+        guard_egress(
+            input_data={"tool_name": "Read", "tool_input": {"file_path": "x"}},
+            tool_use_id="eval",
+            context=None,
+        )
+    )
+    results.append(
+        {
+            "case_id": "non_webfetch_passthrough",
+            "url": "(Read tool)",
+            "expected": "allow",
+            "observed": "allow" if passthrough == {} else "deny",
+            "passed": passthrough == {},
+        }
+    )
 
     passed = sum(1 for r in results if r["passed"])
     total = len(results)
@@ -81,10 +84,8 @@ def main() -> None:
     summary = run()
     for r in summary["results"]:
         flag = "PASS" if r["passed"] else "FAIL"
-        print(f"  [{flag}] {r['case_id']:<28} expected={r['expected']:<5} "
-              f"observed={r['observed']}")
-    print(f"\nGuardrail evals: {summary['passed']}/{summary['total']} passed "
-          f"-> {RESULTS_PATH}")
+        print(f"  [{flag}] {r['case_id']:<28} expected={r['expected']:<5} observed={r['observed']}")
+    print(f"\nGuardrail evals: {summary['passed']}/{summary['total']} passed -> {RESULTS_PATH}")
     if not summary["all_passed"]:
         raise SystemExit(1)
 

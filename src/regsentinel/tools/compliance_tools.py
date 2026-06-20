@@ -80,9 +80,7 @@ async def extract_obligations(args: dict[str, Any]) -> dict[str, Any]:
         )
 
     return {
-        "content": [
-            {"type": "text", "text": json.dumps({"obligations": obligations}, indent=2)}
-        ]
+        "content": [{"type": "text", "text": json.dumps({"obligations": obligations}, indent=2)}]
     }
 
 
@@ -104,8 +102,7 @@ async def score_risk(args: dict[str, Any]) -> dict[str, Any]:
                 {
                     "type": "text",
                     "text": (
-                        "ERROR: likelihood and impact must each be "
-                        "'low', 'medium', or 'high'."
+                        "ERROR: likelihood and impact must each be 'low', 'medium', or 'high'."
                     ),
                 }
             ],
@@ -173,9 +170,7 @@ async def map_control(args: dict[str, Any]) -> dict[str, Any]:
     coverage = args["coverage"].strip().lower()
     if coverage not in {"full", "partial", "none"}:
         return {
-            "content": [
-                {"type": "text", "text": "ERROR: coverage must be full/partial/none."}
-            ],
+            "content": [{"type": "text", "text": "ERROR: coverage must be full/partial/none."}],
             "is_error": True,
         }
     return {

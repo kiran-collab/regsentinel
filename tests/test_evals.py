@@ -54,11 +54,13 @@ def test_trace_phase_order():
 
 
 def test_trace_presence_flags():
-    flags = score_trace([
-        {"tool": "WebFetch"},
-        {"tool": "mcp__compliance__extract_obligations"},
-        {"tool": "Write"},
-    ])
+    flags = score_trace(
+        [
+            {"tool": "WebFetch"},
+            {"tool": "mcp__compliance__extract_obligations"},
+            {"tool": "Write"},
+        ]
+    )
     assert flags["used_web_research"] is True
     assert flags["used_obligation_extractor"] is True
     assert flags["used_control_mapper"] is False

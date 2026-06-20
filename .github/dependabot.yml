@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Python dependencies (pyproject + lockfile).
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      python-dependencies:
+        patterns: ["*"]
+
+  # Keep GitHub Actions (pinned by SHA) up to date.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

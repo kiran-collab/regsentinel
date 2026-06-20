@@ -182,6 +182,21 @@ Python 3.10+, `claude-agent-sdk` (the same harness that powers Claude Code),
 the Model Context Protocol for tool integration, and `pydantic-settings` for
 validated configuration. Model: Claude (Sonnet for subagents; configurable).
 
+## Development & quality gates
+
+```bash
+make install     # editable install + pre-commit hooks
+make check       # lint + types + coverage-gated tests + evals
+```
+
+CI ([`.github/workflows`](.github/workflows)) runs on every PR/push:
+**ruff** (lint + format), **mypy** (types), **pytest** with an 85%+
+coverage floor, the deterministic eval layers, **Bandit** + **pip-audit**
+(security), and **CodeQL**. GitHub Actions are pinned by commit SHA,
+dependencies are kept current by **Dependabot** and pinned for reproducible
+installs in [`requirements.lock`](requirements.lock). See
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Notes & honest limitations
 
 - `sample_data/controls_inventory.md` is illustrative; point the control-mapper

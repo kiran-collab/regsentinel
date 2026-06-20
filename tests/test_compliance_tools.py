@@ -40,18 +40,24 @@ def test_score_risk_rejects_bad_input():
 
 
 def test_verify_citation_normalizes_whitespace():
-    res = _call(verify_citation, {
-        "quoted_snippet": "shall   maintain a   record",
-        "source_text": "The controller shall maintain a record of activities.",
-    })
+    res = _call(
+        verify_citation,
+        {
+            "quoted_snippet": "shall   maintain a   record",
+            "source_text": "The controller shall maintain a record of activities.",
+        },
+    )
     assert json.loads(_text(res))["citation_verified"] is True
 
 
 def test_verify_citation_detects_fabrication():
-    res = _call(verify_citation, {
-        "quoted_snippet": "must publish results within 24 hours",
-        "source_text": "The controller shall maintain a record of activities.",
-    })
+    res = _call(
+        verify_citation,
+        {
+            "quoted_snippet": "must publish results within 24 hours",
+            "source_text": "The controller shall maintain a record of activities.",
+        },
+    )
     assert json.loads(_text(res))["citation_verified"] is False
 
 
@@ -68,10 +74,13 @@ def test_extract_obligations_flags_mandatory():
 
 
 def test_map_control_marks_gap():
-    res = _call(map_control, {
-        "obligation_id": "EUAIA:abc",
-        "control_id": "CTRL-014",
-        "coverage": "partial",
-        "rationale": "no residual-risk acceptance step",
-    })
+    res = _call(
+        map_control,
+        {
+            "obligation_id": "EUAIA:abc",
+            "control_id": "CTRL-014",
+            "coverage": "partial",
+            "rationale": "no residual-risk acceptance step",
+        },
+    )
     assert json.loads(_text(res))["is_gap"] is True

@@ -1,0 +1,10 @@
+# Code owners are requested for review automatically on every PR.
+# See https://docs.github.com/articles/about-code-owners
+
+# Default owner for everything in the repo.
+*                       @kiran-collab
+
+# The deterministic, auditable core and governance hooks warrant extra care.
+/src/regsentinel/tools/  @kiran-collab
+/src/regsentinel/hooks.py @kiran-collab
+/evals/                  @kiran-collab

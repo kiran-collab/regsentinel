@@ -8,7 +8,11 @@ governance behavior, so it gets its own coverage.
 import pytest
 from pydantic import ValidationError
 
-from regsentinel.config import DEFAULT_ALLOWED_FETCH_DOMAINS, Settings
+from regsentinel.config import (
+    DEFAULT_ALLOWED_FETCH_DOMAINS,
+    Settings,
+    configure_logging,
+)
 
 
 def test_defaults():
@@ -44,3 +48,7 @@ def test_settings_is_immutable():
     s = Settings()
     with pytest.raises(ValidationError):
         s.max_turns = 5  # frozen model
+
+
+def test_configure_logging_is_safe_to_call():
+    configure_logging("DEBUG")  # must not raise

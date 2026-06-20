@@ -87,12 +87,10 @@ def run_case(case: dict[str, Any]) -> dict[str, Any]:
     if auth_domains:
         fetched_hosts = [
             (r.get("input") or {}).get("url", "")
-            for r in records if r.get("tool") in {"WebFetch", "WebSearch"}
+            for r in records
+            if r.get("tool") in {"WebFetch", "WebSearch"}
         ]
-        domain_ok = all(
-            any(d in host for d in auth_domains)
-            for host in fetched_hosts if host
-        )
+        domain_ok = all(any(d in host for d in auth_domains) for host in fetched_hosts if host)
 
     passed = error is None and all(tool_checks.values()) and domain_ok
     return {

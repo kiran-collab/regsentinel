@@ -47,7 +47,5 @@ def score_control_mapping(result: dict[str, Any], expected: dict[str, Any]) -> d
         "control_id_match": control_id_match,
         "gap_match": gap_match,
         "has_rationale": has_rationale,
-        "passed": all(
-            [valid_coverage, coverage_match, control_id_match, gap_match, has_rationale]
-        ),
+        "passed": all([valid_coverage, coverage_match, control_id_match, gap_match, has_rationale]),
     }

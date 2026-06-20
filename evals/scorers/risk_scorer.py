@@ -40,8 +40,9 @@ def score_risk_matrix_result(likelihood: str, impact: str, predicted_band: str) 
     }
 
 
-def score_tool_result(likelihood: str, impact: str, result: dict[str, Any],
-                      expect_error: bool = False) -> dict[str, Any]:
+def score_tool_result(
+    likelihood: str, impact: str, result: dict[str, Any], expect_error: bool = False
+) -> dict[str, Any]:
     """Score a raw ``score_risk`` tool result.
 
     For valid cells, checks the returned ``risk_band`` against the oracle. For

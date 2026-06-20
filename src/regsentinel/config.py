@@ -25,22 +25,22 @@ from typing import Literal
 from pydantic import AliasChoices, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-PermissionMode = Literal[
-    "default", "acceptEdits", "plan", "bypassPermissions", "dontAsk", "auto"
-]
+PermissionMode = Literal["default", "acceptEdits", "plan", "bypassPermissions", "dontAsk", "auto"]
 LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 # Domains the researcher subagent may fetch. In production this would come from a
 # policy service; here it is a conservative default that env config can override.
-DEFAULT_ALLOWED_FETCH_DOMAINS: frozenset[str] = frozenset({
-    "eur-lex.europa.eu",
-    "gdpr.eu",
-    "www.iso.org",
-    "csrc.nist.gov",
-    "www.federalregister.gov",
-    "aicpa.org",
-    "www.aicpa.org",
-})
+DEFAULT_ALLOWED_FETCH_DOMAINS: frozenset[str] = frozenset(
+    {
+        "eur-lex.europa.eu",
+        "gdpr.eu",
+        "www.iso.org",
+        "csrc.nist.gov",
+        "www.federalregister.gov",
+        "aicpa.org",
+        "www.aicpa.org",
+    }
+)
 
 
 class Settings(BaseSettings):
@@ -59,9 +59,7 @@ class Settings(BaseSettings):
     )
     allowed_fetch_domains: frozenset[str] = Field(
         DEFAULT_ALLOWED_FETCH_DOMAINS,
-        validation_alias=AliasChoices(
-            "REGSENTINEL_ALLOWED_FETCH_DOMAINS", "allowed_fetch_domains"
-        ),
+        validation_alias=AliasChoices("REGSENTINEL_ALLOWED_FETCH_DOMAINS", "allowed_fetch_domains"),
     )
     subagent_model: str = Field(
         "sonnet",
