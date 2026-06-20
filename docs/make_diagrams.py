@@ -81,7 +81,8 @@ class SVG:
         self.text(x + 26, y + 22, label, size=11, fill=PANEL_L, weight="700",
                   spacing="1.4")
 
-    def render(self) -> str:
+    def render(self, crop=None) -> str:
+        vx, vy, vw, vh = crop if crop else (0, 0, self.w, self.h)
         defs = (
             '<defs>'
             '<marker id="arrow" markerWidth="9" markerHeight="9" refX="7.2" refY="3.4" '
@@ -93,10 +94,10 @@ class SVG:
             '</defs>'
         )
         body = "\n".join(self.el)
-        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" '
-                f'height="{self.h}" viewBox="0 0 {self.w} {self.h}" '
+        return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{vw}" '
+                f'height="{vh}" viewBox="{vx} {vy} {vw} {vh}" '
                 f'font-family="{SANS}">\n'
-                f'<rect width="{self.w}" height="{self.h}" fill="{WHITE}"/>\n'
+                f'<rect x="{vx}" y="{vy}" width="{vw}" height="{vh}" fill="{WHITE}"/>\n'
                 f'{defs}\n{body}\n</svg>\n')
 
 
@@ -116,15 +117,7 @@ def build_architecture() -> str:
     W, H = 1500, 1010
     s = SVG(W, H)
 
-    # ---- header ----
-    s.text(48, 56, "RegSentinel", size=30, weight="700")
-    s.text(232, 56, "· System Architecture", size=21, weight="400", fill=SUB)
-    s.text(48, 84,
-           "Orchestrator-led multi-agent regulatory compliance audit — least-"
-           "privilege subagents, a deterministic in-process MCP core, and a "
-           "model-independent governance layer.",
-           size=13.5, fill=SUB)
-    s.line(48, 100, W - 48, 100, RULE, sw=1.2, marker=False)
+    # (title/subtitle header intentionally omitted — diagram only)
 
     # ---- external sources (left) ----
     ext_x, ext_y, ext_w, ext_h = 48, 130, 256, 150
@@ -359,24 +352,10 @@ def build_architecture() -> str:
     s.path(f"M{au_cx},{au_y + 124} C{au_cx},{o_py - 40} {a_x + a_w/2},{o_py - 20} "
            f"{a_x + a_w/2},{o_py + 42}", EXT_S, sw=1.4, dash="5 4")
 
-    # ---- legend ----
-    ly = H - 38
-    s.line(48, ly - 18, W - 48, ly - 18, RULE, sw=1.1, marker=False)
-    items = [
-        (ORCH_S, "control flow / delegation", False),
-        (MCP_S, "deterministic tool call", False),
-        (GOV_S, "governance interception", True),
-        (EXT_S, "data / artifact flow", True),
-    ]
-    lx = 48
-    for color, label, dash in items:
-        s.line(lx, ly, lx + 30, ly, color, sw=2.0, dash="5 4" if dash else None, marker=True)
-        s.text(lx + 38, ly + 4, label, size=11, fill=SUB)
-        lx += 38 + len(label) * 6.4 + 40
-    s.text(W - 48, ly + 4, "Generated from docs/make_diagrams.py", size=10, fill=PANEL_L,
-           anchor="end", italic=True)
+    # (bottom legend/footer intentionally omitted — diagram only)
 
-    return s.render()
+    # crop the canvas to the diagram region (no header/footer whitespace)
+    return s.render(crop=(0, 120, W, 772))
 
 
 # --------------------------------------------------------------------------- #
@@ -386,13 +365,7 @@ def build_eval_pipeline() -> str:
     W, H = 1500, 600
     s = SVG(W, H)
 
-    s.text(48, 54, "RegSentinel", size=28, weight="700")
-    s.text(218, 54, "· Evaluation Pipeline", size=20, fill=SUB)
-    s.text(48, 82,
-           "Four layers, cheapest-and-most-deterministic first. The unit and "
-           "guardrail layers gate every push with no API key; the model-driven "
-           "layers run when a key is configured.", size=13.5, fill=SUB)
-    s.line(48, 98, W - 48, 98, RULE, sw=1.2, marker=False)
+    # (title/subtitle header intentionally omitted — diagram only)
 
     layers = [
         (AG_S, AG_F, "UNIT", "deterministic MCP tools",
@@ -446,15 +419,10 @@ def build_eval_pipeline() -> str:
         x2 = centers[i][1]
         s.line(x2 + 4, cy + ch / 2, x2 + gap - 4, cy + ch / 2, INK, sw=1.6)
 
-    # CI footer
-    fy = cy + ch + 46
-    s.rect(48, fy - 26, W - 96, 44, PANEL_F, PANEL_S, sw=1.3, rx=10)
-    s.circle(74, fy - 4, 4, ORCH_S)
-    s.text(88, fy, "GitHub Actions  ·  pytest + unit + guardrail gate every push  ·  "
-           "agent + e2e run on ANTHROPIC_API_KEY  ·  results rolled up to "
-           "eval_summary.md", size=12, fill=INK)
+    # (CI footer intentionally omitted — diagram only)
 
-    return s.render()
+    # crop the canvas to the layer cards (no header/footer whitespace)
+    return s.render(crop=(0, 128, W, 338))
 
 
 def rasterize(svg_path: Path, width: int = 3000):
