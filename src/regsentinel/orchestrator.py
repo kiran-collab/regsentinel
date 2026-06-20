@@ -99,8 +99,7 @@ def build_options(working_dir: str) -> ClaudeAgentOptions:
             "PreToolUse": [HookMatcher(matcher="WebFetch", hooks=[guard_egress])],  # type: ignore[list-item]
             "PostToolUse": [HookMatcher(matcher=None, hooks=[audit_tool_use])],  # type: ignore[list-item]
         },
-        # permission_mode is a Literal in the SDK; it is validated by config/env.
-        permission_mode=settings.permission_mode,  # type: ignore[arg-type]
+        permission_mode=settings.permission_mode,
         max_turns=settings.max_turns,
     )
 

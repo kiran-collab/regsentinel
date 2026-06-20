@@ -161,8 +161,11 @@ governance log) in the working directory.
 
 ## Configuration
 
-All runtime knobs are environment variables with safe defaults, resolved once in
-[`src/regsentinel/config.py`](src/regsentinel/config.py) (see [`.env.example`](.env.example)):
+All runtime knobs are environment variables with safe defaults, validated by
+**pydantic-settings** and resolved once in
+[`src/regsentinel/config.py`](src/regsentinel/config.py) (invalid values — an
+unknown permission mode, a non-positive turn budget — fail fast at startup). See
+[`.env.example`](.env.example):
 
 | Variable | Default | Purpose |
 |---|---|---|
@@ -176,8 +179,8 @@ All runtime knobs are environment variables with safe defaults, resolved once in
 ## Tech
 
 Python 3.10+, `claude-agent-sdk` (the same harness that powers Claude Code),
-the Model Context Protocol for tool integration. Model: Claude (Sonnet for
-subagents; configurable).
+the Model Context Protocol for tool integration, and `pydantic-settings` for
+validated configuration. Model: Claude (Sonnet for subagents; configurable).
 
 ## Notes & honest limitations
 
