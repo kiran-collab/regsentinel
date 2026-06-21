@@ -1,8 +1,7 @@
 # RegSentinel — Multi-Agent Regulatory Compliance Intelligence
 
 > An orchestrator-led, multi-agent system that audits an organization's internal
-> controls against **live** regulatory requirements — built on the
-> [Claude Agent SDK](https://code.claude.com/docs/en/agent-sdk/overview) with
+> controls against **live** regulatory requirements —  with
 > subagents, an in-process MCP server, governance hooks, and resumable sessions.
 
 Compliance is a deliberately hard target for an agentic showcase: it is
