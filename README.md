@@ -37,7 +37,7 @@ orchestrator  (delegates, never analyzes directly)
   └─▶ report-writer           Write + mcp: verify_citation → compile final report
 ```
 
-## Why these design choices (the interesting part)
+## Design choices 
 
 This is built to demonstrate the patterns production agent teams care about, not
 just "many agents calling an LLM."
@@ -196,7 +196,7 @@ dependencies are kept current by **Dependabot** and pinned for reproducible
 installs in [`requirements.lock`](requirements.lock). See
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-## Notes & honest limitations
+## Notes
 
 - `sample_data/controls_inventory.md` is illustrative; point the control-mapper
   at your real inventory (or a Confluence/Drive MCP server) for live use.
